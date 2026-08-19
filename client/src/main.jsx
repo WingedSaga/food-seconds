@@ -4,7 +4,7 @@ import{BrowserRouter,Routes,Route,Link}from'react-router-dom';
 import axios from'axios';
 import QRCode from'qrcode';
 import'./style.css';
-const api=axios.create({baseURL:import.meta.env.VITE_API_URL||'http://localhost:4200/api'});
+const api=axios.create({baseURL:import.meta.env.VITE_API_URL||'/api'});
 api.interceptors.request.use(c=>{const t=localStorage.getItem('ns_token');if(t)c.headers.Authorization=`Bearer ${t}`;return c});
 const eur=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'EUR'}).format((n||0)/100);
 const states={new:'Новые',cooking:'Готовятся',ready:'Готовы',issued:'Выданы',cancelled:'Отменены'};
