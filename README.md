@@ -9,7 +9,7 @@
 3. `cd server && npm install && npm start`
 4. `cd client && npm install && npm run dev`
 
-В `client/.env` укажите URL API, например `VITE_API_URL=https://food-seconds-api.example.com/api`.
+Скопируйте `client/.env.example` в `client/.env` и укажите URL API, например `VITE_API_URL=https://food-seconds-api.example.com/api`.
 
 Для production-сборки выполните `npm run build` в `client`, а каталог `client/dist` разместите на статическом хостинге. Сервер должен быть доступен по HTTPS и иметь `CLIENT_URL` со значением адреса фронтенда.
 
