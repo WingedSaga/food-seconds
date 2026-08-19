@@ -50,5 +50,5 @@
     if (!root || root.children.length) return;
     request('GET', '/me', null, function (status, data) { var shortcut = document.querySelector('.admin-shortcut'); if (shortcut && (!data.user || data.user.food_role !== 'admin')) shortcut.style.display = 'none'; if (status === 200) menu(root, data.user); else login(root); });
   }
-  setTimeout(start, 1800);
+  setTimeout(start, 400);
 }());
