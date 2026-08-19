@@ -20,7 +20,20 @@ async function applyPaymentQr() {
   } catch { /* QR is optional, keep generated code */ }
 }
 
-function addUploadButton() {
+function makeFoodImagesReliable() {
+  const replace = () => document.querySelectorAll('.grid img').forEach((img) => {
+    img.onerror = () => { img.onerror = null; img.src = '/food-placeholder.svg'; };
+  });
+  replace();
+  new MutationObserver(replace).observe(document.body, { childList: true, subtree: true });
+}
+
+async function addUploadButton() {
+  var me;
+  try { me = await api('/me'); } catch (_) { me = null; }
+  var shortcut = document.querySelector('.admin-shortcut');
+  if (shortcut) shortcut.style.display = me && me.user && me.user.food_role === 'admin' ? '' : 'none';
+  if (!me || !me.user || me.user.food_role !== 'admin') return;
   if (location.pathname !== '/admin') return;
   const button = document.createElement('button');
   button.className = 'qr-upload';
@@ -45,4 +58,5 @@ function addUploadButton() {
 }
 
 applyPaymentQr();
+makeFoodImagesReliable();
 addUploadButton();

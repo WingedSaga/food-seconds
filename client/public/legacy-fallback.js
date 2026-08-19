@@ -37,7 +37,7 @@
         if (me.food_role === 'admin' || me.food_role === 'manager') side += '<a class="legacy-link" href="/manager">Заказы</a>';
         if (me.food_role === 'admin') side += '<a class="legacy-link" href="/admin">Админ-панель</a>';
         side += '</aside><main><header><h1>Меню</h1></header><div class="grid">';
-        for (i = 0; i < items.length; i++) { var item = items[i]; if (active !== 'all' && item.category_id !== active) continue; side += '<article><img src="' + (item.image_url || '') + '" alt=""><h3>' + item.name + '</h3><p>' + (item.description || '') + '</p><strong>' + (item.price_cents / 100).toFixed(2) + ' €</strong><button' + (item.is_available ? '' : ' disabled') + '>' + (item.is_available ? 'Добавить' : 'Нет в наличии') + '</button></article>'; }
+        for (i = 0; i < items.length; i++) { var item = items[i]; if (active !== 'all' && item.category_id !== active) continue; side += '<article><img src="' + (item.image_url || '/food-placeholder.svg') + '" onerror="this.onerror=null;this.src=\'/food-placeholder.svg\'" alt=""><h3>' + item.name + '</h3><p>' + (item.description || '') + '</p><strong>' + (item.price_cents / 100).toFixed(2) + ' €</strong><button' + (item.is_available ? '' : ' disabled') + '>' + (item.is_available ? 'Добавить' : 'Нет в наличии') + '</button></article>'; }
         root.innerHTML = '<div class="app">' + side + '</div></main></div>';
         var buttons = root.querySelectorAll('[data-cat]');
         for (i = 0; i < buttons.length; i++) buttons[i].onclick = function () { active = this.getAttribute('data-cat'); draw(); };
@@ -48,7 +48,7 @@
   function start() {
     var root = document.getElementById('root');
     if (!root || root.children.length) return;
-    request('GET', '/me', null, function (status, data) { if (status === 200) menu(root, data.user); else login(root); });
+    request('GET', '/me', null, function (status, data) { var shortcut = document.querySelector('.admin-shortcut'); if (shortcut && (!data.user || data.user.food_role !== 'admin')) shortcut.style.display = 'none'; if (status === 200) menu(root, data.user); else login(root); });
   }
   setTimeout(start, 1800);
 }());
