@@ -34,7 +34,7 @@ jobs:
         working-directory: client
         env:
           VITE_BASE: /food-seconds/
-          VITE_API_URL: https://grammar-helicopter-elect-necklace.trycloudflare.com/api
+          VITE_API_URL: https://position-problems-lewis-increase.trycloudflare.com/api
       - uses: actions/upload-pages-artifact@v3
         with:
           path: client/dist
