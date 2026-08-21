@@ -7,7 +7,9 @@
   }
   function request(method, path, body, done) {
     var xhr = new XMLHttpRequest();
-    xhr.open(method, '/api' + path, true);
+    var apiBase = window.__FOOD_API_URL;
+    if (!apiBase || apiBase.indexOf('%VITE_') === 0) apiBase = '/api';
+    xhr.open(method, apiBase + path, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     var token = localStorage.getItem('ns_token');
     if (token) xhr.setRequestHeader('Authorization', 'Bearer ' + token);
