@@ -1,5 +1,10 @@
 (function () {
   'use strict';
+  function ready() {
+    window.__foodSecondsReady = true;
+    var loading = document.getElementById('app-loading');
+    if (loading && loading.parentNode) loading.parentNode.removeChild(loading);
+  }
   function request(method, path, body, done) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, '/api' + path, true);
@@ -16,6 +21,7 @@
   }
   function login(root) {
     root.innerHTML = '<main class="center receipt"><h1>Еда секунды</h1><p>Вход аккаунтом «Новости секунды»</p><form id="legacy-login"><input name="email" type="email" placeholder="Почта" required><input name="password" type="password" placeholder="Пароль" required><button class="primary">Войти</button><p id="legacy-error"></p></form></main>';
+    ready();
     document.getElementById('legacy-login').onsubmit = function (event) {
       event.preventDefault();
       var form = event.target;
@@ -39,6 +45,7 @@
         side += '</aside><main><header><h1>Меню</h1></header><div class="grid">';
         for (i = 0; i < items.length; i++) { var item = items[i]; if (active !== 'all' && item.category_id !== active) continue; side += '<article><img src="' + (item.image_url || '/food-placeholder.svg') + '" onerror="this.onerror=null;this.src=\'/food-placeholder.svg\'" alt=""><h3>' + item.name + '</h3><p>' + (item.description || '') + '</p><strong>' + (item.price_cents / 100).toFixed(2) + ' €</strong><button' + (item.is_available ? '' : ' disabled') + '>' + (item.is_available ? 'Добавить' : 'Нет в наличии') + '</button></article>'; }
         root.innerHTML = '<div class="app">' + side + '</div></main></div>';
+        ready();
         var buttons = root.querySelectorAll('[data-cat]');
         for (i = 0; i < buttons.length; i++) buttons[i].onclick = function () { active = this.getAttribute('data-cat'); draw(); };
       }
