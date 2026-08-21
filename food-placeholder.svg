@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="520" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#e6f5e8"/>
+  <circle cx="400" cy="260" r="140" fill="#2f8b45" opacity=".15"/>
+  <path d="M235 300h330l-35 82H270z" fill="#2f8b45"/>
+  <path d="M255 270c20-105 270-105 290 0z" fill="#f0b35f"/>
+  <path d="M270 278h260v26H270z" fill="#d85f43"/>
+  <text x="400" y="430" text-anchor="middle" fill="#216c34" font-family="Arial,sans-serif" font-size="34" font-weight="700">Еда секунды</text>
+</svg>
