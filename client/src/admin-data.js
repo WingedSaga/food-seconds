@@ -1,12 +1,22 @@
+import { availablePaymentMethods } from './payment-methods.js';
+
 const isRecord = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 export const asArray = value => Array.isArray(value) ? value : [];
 
-export const normalizeMenuData = payload => ({
-  ...(isRecord(payload) ? payload : {}),
-  categories: asArray(payload?.categories).filter(isRecord),
-  items: asArray(payload?.items).filter(item => isRecord(item) && typeof item.name === 'string'),
-  settings: isRecord(payload?.settings) ? payload.settings : {},
-});
+export const normalizeMenuData = payload => {
+  const settings = isRecord(payload?.settings) ? payload.settings : {};
+  const paymentMethods = availablePaymentMethods(settings);
+  const safeSettings = paymentMethods.length === 1 && paymentMethods[0].value === 'cash'
+    ? { ...settings, payment_cash_enabled: true }
+    : settings;
+
+  return {
+    ...(isRecord(payload) ? payload : {}),
+    categories: asArray(payload?.categories).filter(isRecord),
+    items: asArray(payload?.items).filter(item => isRecord(item) && typeof item.name === 'string'),
+    settings: safeSettings,
+  };
+};
 
 export const normalizeOrder = order => isRecord(order) ? {
   ...order,
