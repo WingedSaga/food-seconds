@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { asArray, normalizeAdminData, normalizeMenuData, normalizeOrderList } from '../src/admin-data.js';
+import { asArray, normalizeAdminData, normalizeMenuData, normalizeOrderList, prepareManagerOrders } from '../src/admin-data.js';
 
 test('keeps the admin screen usable when the API response is incomplete', () => {
   assert.deepEqual(normalizeAdminData({ settings: { tip_options: null } }), {
@@ -23,4 +23,13 @@ test('normalizes malformed menu and order lists before a screen renders them', (
     settings: {},
   });
   assert.deepEqual(normalizeOrderList({ broken: true }), []);
+});
+
+test('keeps the manager board alive when a tunnel returns a malformed items value', () => {
+  assert.doesNotThrow(() => prepareManagerOrders({ items: { broken: true } }, ['old-order']));
+  assert.deepEqual(prepareManagerOrders({ items: { broken: true } }, []), {
+    items: [],
+    fresh: [],
+    seenIds: [],
+  });
 });

@@ -15,6 +15,20 @@ export const normalizeOrder = order => isRecord(order) ? {
 
 export const normalizeOrderList = orders => asArray(orders).map(normalizeOrder).filter(Boolean);
 
+// Keep the manager board independent from a proxy/interceptor.  A temporary
+// tunnel response must never make the whole React app crash because `items`
+// is not an array yet.
+export const prepareManagerOrders = (payload, seen) => {
+  const items = normalizeOrderList(payload?.items);
+  const knownIds = asArray(seen);
+
+  return {
+    items,
+    fresh: items.filter(order => order.status === 'new' && !knownIds.includes(order.id)),
+    seenIds: items.map(order => order.id),
+  };
+};
+
 export const normalizeAdminData = payload => {
   const settings = isRecord(payload?.settings) ? payload.settings : {};
 
