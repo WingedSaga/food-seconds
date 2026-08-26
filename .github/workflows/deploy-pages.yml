@@ -34,7 +34,10 @@ jobs:
         working-directory: client
         env:
           VITE_BASE: /food-seconds/
-          VITE_API_URL: https://position-problems-lewis-increase.trycloudflare.com/api
+          # The public gateway now forwards this path to Food Seconds on the
+          # HomeLab.  A repository variable can still replace it later when
+          # the final dedicated domain is ready.
+          VITE_API_URL: ${{ vars.FOOD_API_URL || 'https://wingedsaga.tail7db1c9.ts.net/food/api' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: client/dist
